@@ -35,33 +35,70 @@ class BinarySearchTree {
           current.right = newNode;
           return;
         }
+        current = current.right;
       }
     }
   }
 
-  find(/* data */) {
-    // Remove line below and write your code here
-    throw new NotImplementedError("Not implemented");
+  find(data) {
+    let current = this.treeRoot;
+    while (current) {
+      if (data === current.data) return current;
+      else if (data < current.data) current = current.left;
+      else if (data > current.data) current = current.right;
+    }
+    return null;
   }
 
-  has(/* data */) {
-    // Remove line below and write your code here
-    throw new NotImplementedError("Not implemented");
+  has(data) {
+    let current = this.treeRoot;
+    while (current) {
+      if (data === current.data) return true;
+      else if (data < current.data) current = current.left;
+      else if (data > current.data) current = current.right;
+    }
+    return false;
   }
 
-  remove(/* data */) {
-    // Remove line below and write your code here
-    throw new NotImplementedError("Not implemented");
+  remove(data) {
+    this.treeRoot = removeNode(this.treeRoot, data);
+    function removeNode(node, data) {
+      if (!node) return null;
+      if (data < node.data) {
+        node.left = removeNode(node.left, data);
+      } else if (data > node.data) {
+        node.right = removeNode(node.right, data);
+      } else {
+        if (!node.left && !node.right) return null;
+        if (!node.left) return node.right;
+        if (!node.right) return node.left;
+        let minFormRight = node.right;
+        while (minFormRight.left) {
+          minFormRight = minFormRight.left;
+        }
+        node.data = minFormRight.data;
+        node.right = removeNode(node.right, minFormRight.data);
+      }
+      return node;
+    }
   }
 
   min() {
-    // Remove line below and write your code here
-    throw new NotImplementedError("Not implemented");
+    if (!this.treeRoot) return null;
+    let current = this.treeRoot;
+    while (current.left) {
+      current = current.left;
+    }
+    return current.data;
   }
 
   max() {
-    // Remove line below and write your code here
-    throw new NotImplementedError("Not implemented");
+    if (!this.treeRoot) return null;
+    let current = this.treeRoot;
+    while (current.right) {
+      current = current.right;
+    }
+    return current.data;
   }
 }
 
